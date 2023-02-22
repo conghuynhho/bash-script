@@ -1,11 +1,11 @@
 
 # ggjcp will run a bash file in the directory of ggj_create_pull.sh
-# ggjcp <repo> <target_branch> <source_branch{staging}>
-# HOW TO USE:
+# ggjcp <repo> <source_branch{staging}> <target_branch>
+# HOW TO USE: Merge request for target_branch to source_branch
 ggjcp() {
     repo=$1
-    target_branch=$2
-    source_branch=$3
+    source_branch=$2  # optional
+    target_branch=$3  # branch to merge to source_branch
 
     # add default value for source_branch is staging
     if [ -z "$source_branch" ]; then
@@ -13,8 +13,13 @@ ggjcp() {
     fi
 
     if [ -z "$repo" ] || [ -z "$source_branch" ] || [ -z "$target_branch" ]; then
-        echo "Usage: $0 <repo> <source_branch> <target_branch>"
-        exit 1
+        # echo with red text
+        echo -e "\e[1;31mMissing arguments\e[0m"
+        echo -e "\e[1;33mUsage: $0 <repo> <target_branch> <source_branch>\e[0m"
+
+        echo "Github link will be: https://github.com/gogojungle/<repo>/compare/<source_branch>...<target_branch>"
+        # stop the script but leave the terminal open
+        return 0
     fi
 
     # Variable to store a pair of key-value for ggj repo which have $repo as key and $url as value
@@ -29,7 +34,7 @@ ggjcp() {
     # Check if $repo is in the list of ggj_repos
     if [ -z "${ggj_repos[$repo]}" ]; then
         echo "Repo $repo is not in the list of ggj_repos"
-        exit 1
+        return 0
     fi
 
     # debug
@@ -43,13 +48,13 @@ ggjcp() {
     if ! command -v start &> /dev/null
     then
         echo "start could not be found"
-        exit
+        return 0
     fi
 
     # Echo with style
     echo -e "\e[1;32mOpening github in your browser\e[0m"
-    echo "https://github.com/gogojungle/${ggj_repos[$repo]}/compare/${target_branch}...${source_branch}"
-    start "https://github.com/gogojungle/${ggj_repos[$repo]}/compare/${target_branch}...${source_branch}"
+    echo "https://github.com/gogojungle/${ggj_repos[$repo]}/compare/${source_branch}...${target_branch}"
+    start "https://github.com/gogojungle/${ggj_repos[$repo]}/compare/${source_branch}...${target_branch}"
 }
 
 mkcd ()
