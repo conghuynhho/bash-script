@@ -1,28 +1,37 @@
+: '
+REQUIREMENT:
+- ggjcp repo $1 : create a pull request from staging to $1.
+    GithubLink will be: https://github.com/gogojungle/<repo>/compare/staging...$1
+- ggjcp repo : create a pull request from staging to current_branch
+- ggjcp repo $1 $2 : create a pull request from $2 to $1.
+    GithubLink will be: https://github.com/gogojungle/<repo>/compare/<$2>...<$1>
+'
+
 
 # ggjcp will run a bash file in the directory of ggj_create_pull.sh
-# ggjcp <repo> <source_branch{staging}> <target_branch>
-# HOW TO USE: Merge request for target_branch to source_branch
+# ggjcp <repo> <branch1{staging}> <branch2>
+# merge branch1 to branch2
 ggjcp() {
     repo=$1
-    source_branch=$2  # optional
-    target_branch=$3  # branch to merge to source_branch
+    branch1=$2  # optional
+    branch2=$3  # branch2 is target for merge Ex: master, staging
 
-    # add default value for source_branch is staging
-    if [ -z "$source_branch" ]; then
-        source_branch="staging"
+    # add default value for branch2 is staging
+    if [ -z "$branch2" ]; then
+        branch2="staging"
     fi
 
-    # add default value for target_branch is current branch
-    if [ -z "$target_branch" ]; then
-        target_branch=$(git rev-parse --abbrev-ref HEAD)
+    # add default value for branch1 is current branch
+    if [ -z "$branch1" ]; then
+        branch1=$(git rev-parse --abbrev-ref HEAD)
     fi
 
-    if [ -z "$repo" ] || [ -z "$source_branch" ] || [ -z "$target_branch" ]; then
+    if [ -z "$repo" ] || [ -z "$branch1" ] || [ -z "$branch2" ]; then
         # echo with red text
         echo -e "\e[1;31mMissing arguments\e[0m"
-        echo -e "\e[1;33mUsage: $0 <repo> <target_branch> <source_branch>\e[0m"
+        echo -e "\e[1;33mUsage: $0 <repo> <branch1> <branch2>\e[0m"
 
-        echo "Github link will be: https://github.com/gogojungle/<repo>/compare/<source_branch>...<target_branch>"
+        echo "Github link will be: https://github.com/gogojungle/<repo>/compare/<branch2>...<branch1>"
         # stop the script but leave the terminal open
         return 0
     fi
@@ -44,8 +53,8 @@ ggjcp() {
 
     # debug
     # echo "repo: $repo"
-    # echo "target_branch: $target_branch"
-    # echo "source_branch: $source_branch"
+    # echo "branch2: $branch2"
+    # echo "branch1: $branch1"
     # echo "ggj_repos[$repo]: ${ggj_repos[$repo]}"
 
     # Open github in your browser
@@ -58,8 +67,8 @@ ggjcp() {
 
     # Echo with style
     echo -e "\e[1;32mOpening github in your browser\e[0m"
-    echo "https://github.com/gogojungle/${ggj_repos[$repo]}/compare/${source_branch}...${target_branch}"
-    start "https://github.com/gogojungle/${ggj_repos[$repo]}/compare/${source_branch}...${target_branch}"
+    echo "https://github.com/gogojungle/${ggj_repos[$repo]}/compare/${branch2}...${branch1}"
+    start "https://github.com/gogojungle/${ggj_repos[$repo]}/compare/${branch2}...${branch1}"
 }
 
 mkcd ()
