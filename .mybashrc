@@ -75,3 +75,7 @@ mkcd ()
 {
   mkdir -p -- "$1" && cd -P -- "$1"
 }
+
+
+## config plugin
+eval "$(oh-my-posh init bash --config $HUYNH_CONFIG_DIR/terminal/terminal-utils/oh-my-posh//emodipt-extend.omp.json)"
