@@ -78,4 +78,4 @@ mkcd ()
 
 
 ## config plugin
-eval "$(oh-my-posh init bash --config $HUYNH_CONFIG_DIR/terminal/terminal-utils/oh-my-posh//emodipt-extend.omp.json)"
+eval "$(oh-my-posh init bash --config $HUYNH_CONFIG_DIR/terminal/terminal-utils/oh-my-posh/emodipt-extend.omp.json)"
