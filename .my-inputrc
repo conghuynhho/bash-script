@@ -41,4 +41,4 @@ set echo-control-characters off
 #"\C-p":"\C-u`date +%Y%m%d%H%M`\e\C-e\C-a\C-y\C-e\C-e"
 #"\eu":"`git rev-parse --abbrev-ref HEAD`\e\C-e"
 "\en":"`git rev-parse --abbrev-ref HEAD`\e\C-e\C-u git c -am '\C-e\C-y\C-e '\C-b"
-"\el":"git c -am ''\C-b"
+"\em":"git c -am ''\C-b"
