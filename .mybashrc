@@ -92,6 +92,23 @@ mkcd ()
   mkdir -p -- "$1" && cd -P -- "$1"
 }
 
+admin () {
+    # open powershell with admin at current directory
+    powershell="C:\Users\congh\AppData\Local\Microsoft\WindowsApps\Microsoft.PowerShell_8wekyb3d8bbwe\pwsh.exe"
+    # check path exist
+    if [ ! -f "$powershell" ]; then
+        echo "Warning: $powershell not found"
+        echo "Please install powershell from Microsoft Store or correct the path"
+        echo "Using built-in powershell"
+
+        return 0
+    fi
+    # start powershell with admin at current directory
+    # start "$powershell" -Verb runAs -WorkingDirectory "$current_dir"
+    exec "$powershell" -Command "Start-Process $powershell -Verb RunAs"
+
+}
+
 
 ## config plugin
 eval "$(oh-my-posh init bash --config $HUYNH_CONFIG_DIR/terminal/terminal-utils/oh-my-posh/emodipt-extend.omp.json)"
@@ -101,4 +118,5 @@ alias ls='lsd'
 alias ll='lsd -l'
 alias la='lsd -a'
 alias lla='lsd -la'
+# alias admin='powershell Start-Process powershell -Verb runAs'
 
