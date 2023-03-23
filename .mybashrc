@@ -71,6 +71,22 @@ ggjcp() {
     start "https://github.com/gogojungle/${ggj_repos[$repo]}/compare/${branch2}...${branch1}"
 }
 
+# blg will open https://gogojungle.backlog.jp/view/${current git branch name}
+blg() {
+    # check start command if available
+    if ! command -v start &> /dev/null
+    then
+        echo "start could not be found"
+        return 0
+    fi
+
+    # get current branch name
+    branch_name=$(git rev-parse --abbrev-ref HEAD)
+
+    # open backlog
+    start "https://gogojungle.backlog.jp/view/${branch_name}"
+}
+
 mkcd ()
 {
   mkdir -p -- "$1" && cd -P -- "$1"
